@@ -1,0 +1,68 @@
+
+public class SAccount {
+
+
+		//instance variables 
+		private String id;
+		private String accName;
+		private double balance;
+		public double minBalance;
+		
+		//constructor
+		//SAccount lily234 = new SAccount("A234","Lily",1000)
+		public SAccount (String accountID, String accountName,
+				double baln,double minBaln){
+			id = accountID;
+			accName = accountName;
+			balance = baln;
+			minBalance = minBaln;
+			
+	}
+
+
+
+public String getAccountName (){
+	return accName;}
+
+public double getBalance(){
+	return balance;
+}
+
+public double getMinBalance(){
+	return minBalance;
+}
+
+public void deposit (double ammount){
+	balance = balance + ammount;
+} //Deposit doesn't return any value so it return void
+
+public boolean withdraw(double ammount){
+	//set condition ensure the withdraw is legal
+	if (balance - ammount < minBalance){
+		return false;}
+		else {
+			balance = balance - ammount;
+			return true;
+	}
+} //by call the method in :lily234.withdraw(500) 
+
+
+public boolean transfer(SAccount a, double ammount){
+	if (withdraw(ammount)==false){
+		return false;
+	}
+	else {a.deposit(ammount);
+	return true;
+	}
+} //by call the method in :lily234.transfer(John123,800)
+
+
+public void addInterest(double interestRate)//0%<interestRate<100%
+	{ double interest = balance * (interestRate/100);//NOTE: The interest rate will be supplied as a percentage out of 100, 
+	//so you will need to divide the value that is passed in by 100 when doing your calculation.
+	balance = balance + interest;
+		
+	}
+}
+
+
