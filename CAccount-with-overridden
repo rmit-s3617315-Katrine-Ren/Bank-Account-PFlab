@@ -1,0 +1,106 @@
+public class CAccount extends Account{
+
+	private double overdraftLimit;
+	private double amountOverdrawn;
+	private int transactionCount;
+	
+	public CAccount(String name, String id, 
+			double initBal, double overdraftLim) {
+		super(id, name, initBal);
+		amountOverdrawn = 0;
+		overdraftLimit = overdraftLim;
+		transactionCount = 0;
+	}
+	
+	public CAccount(String name, String id, 
+			double initBal) {
+		
+		this(name, id, initBal, 0);
+	}
+
+	public double getOverdraftLimit() {
+		return overdraftLimit;
+	}
+
+	public double getAmountOverdrawn() {
+		return amountOverdrawn;
+	}
+
+	public int getTransactionCount() {
+		return transactionCount;
+	}
+	
+	public double getAvailableFunds() {
+		return getBalance() + (overdraftLimit - amountOverdrawn);
+	}
+
+	@Override
+	public boolean withdraw(double amount) {
+		if(getAvailableFunds() < amount) {
+			return false;
+		} else if(super.getBalance() >= amount) {
+			transactionCount++;
+			return super.withdraw(amount);
+		} else if(super.getBalance() == 0) {
+			transactionCount++;
+			amountOverdrawn = amount;
+			return true;
+		} else { //getAvailableFunds() >= amount && 0 < balance < amount
+			transactionCount++;
+			amountOverdrawn = amountOverdrawn + amount - super.getBalance();
+			super.withdraw(super.getBalance());
+			return true;
+		}
+	}
+
+	@Override
+	public void deposit(double amount) {
+		if(amountOverdrawn == 0) { //we don't owe the bank any money
+			super.deposit(amount);
+		} else if(amount <= amountOverdrawn) {
+			amountOverdrawn -= amount;
+		} else { // amountOverdrawn != 0 && amount > amountOverdrawn
+			amount -= amountOverdrawn;
+			amountOverdrawn = 0;
+			super.deposit(amount);
+		}
+		transactionCount++;
+	}
+	
+	public void deductMonthlyCharge() {
+		double monthlyCharge = 0;
+		if(transactionCount > 10) {
+			monthlyCharge = monthlyCharge + 1 * (transactionCount - 10);
+		}
+		if(overdraftLimit > 0) {
+			monthlyCharge = monthlyCharge + 1/100 * overdraftLimit;
+		}
+		System.out.println("Monthly charge for this month: " + monthlyCharge);
+		if(monthlyCharge <= getAvailableFunds()) {
+			withdraw(monthlyCharge);
+		} else {
+			monthlyCharge -= getAvailableFunds();
+			withdraw(getAvailableFunds());
+			amountOverdrawn = monthlyCharge;
+		}
+		transactionCount = 0;
+	}
+
+	@Override
+	public String toString() {
+		return "Balance: " + super.getBalance() 
+				+ " | Available fund: " + getAvailableFunds() 
+				+ " | Amount overdrawn: " + amountOverdrawn;
+	}
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+
+}
