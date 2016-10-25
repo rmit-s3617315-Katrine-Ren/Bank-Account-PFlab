@@ -45,7 +45,7 @@ public class Account {
                   return false;
           } else {
                   a.deposit(amt);
-                  balance -= amount;
+                  balance -= amt;
                   return true;
           }
   }
