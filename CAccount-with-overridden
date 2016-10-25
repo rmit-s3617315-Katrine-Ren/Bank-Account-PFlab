@@ -48,7 +48,7 @@ public class CAccount extends Account{
 			return true;
 		} else { //getAvailableFunds() >= amount && 0 < balance < amount
 			transactionCount++;
-			amountOverdrawn = amountOverdrawn + amount - super.getBalance();
+			amountOverdrawn = amount - super.getBalance();
 			super.withdraw(super.getBalance());
 			return true;
 		}
