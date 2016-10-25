@@ -4,6 +4,9 @@ public class CAccount extends Account{
 	private double amountOverdrawn;
 	private int transactionCount;
 	
+	//we don't have to declare the variable of balance here since it can be drawed from super class
+	//On the other hand, we should call the super.getBalance() to get access to the balance of account
+	
 	public CAccount(String name, String id, 
 			double initBal, double overdraftLim) {
 		super(id, name, initBal);
@@ -87,7 +90,7 @@ public class CAccount extends Account{
 		transactionCount = 0;
 	}
 
-	@Override
+	@Override //the toString() derived from Object Class
 	public String toString() {
 		return "Balance: " + super.getBalance() 
 				+ " | Available fund: " + getAvailableFunds() 
