@@ -52,6 +52,7 @@ public boolean transfer(SAccount a, double ammount){
 		return false;
 	}
 	else {a.deposit(ammount);
+	balance = balance - ammount;
 	return true;
 	}
 } //by call the method in :lily234.transfer(John123,800)
