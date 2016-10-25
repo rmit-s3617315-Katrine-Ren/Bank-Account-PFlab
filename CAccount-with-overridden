@@ -40,7 +40,8 @@ public class CAccount extends Account{
 			return false;
 		} else if(super.getBalance() >= amount) {
 			transactionCount++;
-			return super.withdraw(amount);
+			super.withdraw(amount);
+			return true;
 		} else if(super.getBalance() == 0) {
 			transactionCount++;
 			amountOverdrawn = amount;
